@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "TurboLive",
+    "version": "1.0",
+    "description": "Cool realtime collaboration tool for Turbowarp!",
+    "content_scripts": [
+        {
+          "js": ["index.js"],
+          "matches": [
+            "https://turbowarp.org/editor"
+          ]
+        }
+      ],
+    "action": {
+        "default_title": "Chat",
+        "default_popup": "index.html"
+    }
+}

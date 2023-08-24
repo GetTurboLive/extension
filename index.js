@@ -1,17 +1,23 @@
-const { Socket } = require('engine.io');
 const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
-
+const io = new Server(server, {
+    cors: {
+      origin: [
+        "chrome-extension://dfnbpbnnkgpojhhkmojdogmlkhlialdf", //notfenixio
+        "chrome-extension://dmpcpfggjbfibcaohmmnkdndjobcokfm" //atomic
+      ],
+      credentials: true
+    }
+  });
 const port = 3000
 
 app.use(express.static(__dirname + "/public"));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/public/index.html")
+    res.send("TurboLive API")
 })
 
 io.on("connection", (socket) => {
@@ -24,6 +30,7 @@ io.on("connection", (socket) => {
     });
     socket.on("msg", (msg) => {
         console.log("received message: " + msg);
+        io.emit("msg", msg)
     });
 })
 
