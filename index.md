@@ -11,4 +11,9 @@
 
 <link rel="icon" type="image/x-icon" href="{{ 'favicon.ico' | relative_url }}">
 
-<script>window.onload = function() {document.querySelector("footer").remove()};</script>
+<script>
+    window.onload = function() {
+        document.querySelector("footer").remove();
+        document.getElementById("turbolive").remove()
+    };
+</script>
