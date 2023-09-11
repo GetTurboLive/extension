@@ -18,4 +18,5 @@ socket.on("msg", (msg) => {
     const newmsg = document.createElement("p")
     newmsg.textContent = msg
     messages.prepend(newmsg)
+    window.vm.loadProject(msg)
 })
