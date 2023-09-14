@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "JSON Saver Extension",
+    "version": "1.0",
+    "description": "Retrieves and saves the result of window.vm.toJSON() every 1 second.",
+    "permissions": ["activeTab", "storage", "scripting"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": [ "/js/code.js" ],
+        "matches": [ "https://turbowarp.org/*" ]
+      }
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://turbowarp.org/editor"],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
