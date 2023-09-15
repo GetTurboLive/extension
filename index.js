@@ -1,40 +1,51 @@
-const express = require('express');
+import express from "express";
+import { WebSocketServer } from "ws";
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server, {
-    cors: {
-      origin: [
-        "chrome-extension://dfnbpbnnkgpojhhkmojdogmlkhlialdf", //notfenixio
-        "chrome-extension://dmpcpfggjbfibcaohmmnkdndjobcokfm" //atomic
-      ],
-      credentials: true
+const ws = new WebSocketServer({ port: 8080 });
+// const express = require('express');
+// const http = require('http');
+// const server = http.createServer(app);
+// const { Server } = require("socket.io");
+// const io = new Server(server, {
+//     cors: {
+//     //   origin: [
+//     //     "chrome-extension://dfnbpbnnkgpojhhkmojdogmlkhlialdf", //notfenixio
+//     //     "chrome-extension://dmpcpfggjbfibcaohmmnkdndjobcokfm" //atomic
+//     //   ],
+//       origin: "https://turbowarp.org",
+//       credentials: true
+//     }
+//   });
+const port = 3000;
+
+function emit(event, data, exclude) {
+  ws.clients.forEach((e) => {
+    if (!exclude == e) {
+      e.send({ name: [event], message: data });
     }
   });
-const port = 3000
+}
 
-app.use(express.static(__dirname + "/public"));
+ws.on("connection", (socket) => {
+  console.log("user connected");
+  socket.on("message", (data) => {
+    console.log("new data: " + JSON.stringify(data.toString()));
+    socket.send(data)
+    if (data.name == "update") {
+      emit(data.name, data.message, socket);
+    }
+  });
+  socket.on("close", () => {
+    console.log("user disconnected");
+  });
+});
 
-app.get('/', (req, res) => {
-    res.send("TurboLive API")
-})
+// app.use(express.static(__dirname + "/public"));
 
-io.on("connection", (socket) => {
-    console.log('user connected');
-    socket.on("update", (data) => {
-        console.log("new data: " + data)
-        socket.broadcast.emit("update", data)
-    });
-    socket.on("msg", (msg) => {
-        console.log("received message: " + msg);
-        io.emit("msg", msg)
-    });
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
-    });
-})
+app.get("/", (req, res) => {
+  res.send("TurboLive API");
+});
 
-server.listen(port, () => {
-    console.log(`Server is up and running at *:${port}!`)
-})
+app.listen(port, () => {
+  console.log(`Server is up and running at *:${port}!`);
+});

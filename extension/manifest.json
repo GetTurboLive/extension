@@ -6,13 +6,17 @@
     "permissions": ["activeTab", "storage", "scripting"],
     "background": {
       "service_worker": "js/background.js"
-      },
+    },
     "action": {
       "default_popup": "popup.html"
     },
     "web_accessible_resources": [
       {
         "resources": [ "/js/code.js" ],
+        "matches": [ "https://turbowarp.org/*" ]
+      },
+      {
+        "resources": ["/js/socket.io.js"],
         "matches": [ "https://turbowarp.org/*" ]
       }
     ]

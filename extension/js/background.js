@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             target: { tabId: id},
             function: () => {
                 // Inject the code.js script into the active tab
-                var s = document.createElement('script');
+                let s = document.createElement('script');
                 s.src = chrome.runtime.getURL("js/code.js");
                 document.head.appendChild(s);
             },
