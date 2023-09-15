@@ -10,14 +10,13 @@ console.log("Enabled TurboLive - JSON updater!");
 socket.onopen = () => {
   interval = setInterval(() => {
     let projectJSON = window.vm.toJSON();
-    socket.send({ name: "update", message: projectJSON });
-    console.log({ name: "update", message: projectJSON });
+    socket.send(`{ name: "update", message: ${projectJSON} }`);
   }, 500);
 
   socket.onmessage = (event) => {
-    // if (event.data.name == "update") {
-    //   window.vm.loadProject(event.data.message);
-    // }
-    console.log(event.data)
+    if (event.data.name == "update") {
+      window.vm.loadProject(event.data.message);
+      console.log(event.data.message)
+    }
   };
 };

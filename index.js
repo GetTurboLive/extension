@@ -29,10 +29,10 @@ function emit(event, data, exclude) {
 ws.on("connection", (socket) => {
   console.log("user connected");
   socket.on("message", (data) => {
-    console.log("new data: " + JSON.stringify(data.toString()));
-    socket.send(data)
-    if (data.name == "update") {
-      emit(data.name, data.message, socket);
+    console.log("new data: " + data + "socket: " + socket);
+    let e = eval(data) 
+    if (e.name == "update") {
+      emit(e.name, e.message, socket);
     }
   });
   socket.on("close", () => {
