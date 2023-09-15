@@ -1,3 +1,1 @@
-console.log("----------------------------------------");
-console.log("----✅✅✅✅JSON LOGGER✅✅✅✅----");
-console.log("----------------------------------------");
+console.log("Enabled TurboLive - JSON updater!");
