@@ -1,1 +1,0 @@
-console.log("Enabled TurboLive - JSON updater!");

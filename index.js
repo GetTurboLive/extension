@@ -23,14 +23,15 @@ app.get('/', (req, res) => {
 io.on("connection", (socket) => {
     console.log('user connected');
     socket.on("update", (data) => {
+        console.log("new data: " + data)
         socket.broadcast.emit("update", data)
-    });
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
     });
     socket.on("msg", (msg) => {
         console.log("received message: " + msg);
         io.emit("msg", msg)
+    });
+    socket.on("disconnect", () => {
+        console.log("user disconnected");
     });
 })
 

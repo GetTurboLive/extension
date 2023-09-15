@@ -1,20 +1,17 @@
-let currTab;
-
 function getID(callback) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         if (tabs[0]) { 
-            currTab = tabs[0];
-            console.log(currTab.id)
+            let currTab = tabs[0];
+            callback(currTab.id);
         }
-        callback(currTab.id);
     });
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.message === "popup") {
+    if (request.message === "inject") {
         getID((id) => {
-        console.log(sender)
-        console.log(request)
+        console.log(sender);
+        console.log(request);
         chrome.scripting.executeScript({
             target: { tabId: id},
             function: () => {
